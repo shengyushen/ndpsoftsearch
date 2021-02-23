@@ -32,7 +32,7 @@
 \pagenumbering{arabic}
 
 %%%%%%%%%%%---SETME-----%%%%%%%%%%%%%
-\title{Distributed Near Memory Evaluating Complex Pooling Operations for Recommendation System's Embedding Tables }
+\title{Distributed Near-Data Evaluating Complex Pooling Operations for Recommendation System's Embedding Tables}
 \author{}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -47,33 +47,33 @@
 
 \begin{abstract}
 
-  Recommendation system analyze long-term user behavior by 
-  first 1) extracting long user behavior sequences from huge embedding tables
-  distributed across servers connected by low bandwidth networks,
-  and then 2) reducing this long sequence with some pooling operators,
-  such as sum, soft searching and attention,
-  and finally 3) feeding the result into MLP.
-  Thus,
-  step 1 is the major performance bottleneck that accounts for over 80\% run time.
-  
-  Recent studies have proposed near data processing (NDP) 
-  %and processing-in-memory (PIM)  
-  solutions for step 2, 
-  to reduce the long sequences before sending them across the low bandwidth network to GPUs.
-  But they can only handle simple sum pooling operators,
-  not the more complex soft searching and attention operator.
-  
-  Thus,
-  this paper propose novel reformulations of soft searching 
-  and attention pooling operator with linear complexity,
-  and further propose new NDP architecture and communication protocol 
-  to evaluate them distributed on multiple DIMMs.
-  
-  We implement this proposal in both FPGA and software prototype,
-  to respectively show it functional feasibility and performance advantage.
-  With xxx and xxx  benchmark,
-  we boost performance by xxx to xxx times.
-  We also analysis and show the area, power and merchant impact to the DIMM and whole system.
+Recommendation system analyze long-term user behavior by 
+first 1) extracting long user behavior sequences from huge embedding tables
+distributed across servers connected by low bandwidth networks,
+and then 2) reducing this long sequence with some pooling operators,
+such as sum, soft searching and attention,
+and finally 3) feeding the result into MLP.
+Thus,
+step 1 is the major performance bottleneck that accounts for over 80\% run time.
+
+Recent studies have proposed near data processing (NDP) 
+%and processing-in-memory (PIM)  
+solutions for step 2, 
+to reduce the long sequences before sending them across the low bandwidth network to GPUs.
+But they can only handle simple sum pooling operators,
+not the more complex soft searching and attention operator.
+
+Thus,
+this paper propose novel reformulations of soft searching 
+and attention pooling operator with linear complexity,
+and further propose new NDP architecture and communication protocol 
+to evaluate them distributed on multiple DIMMs.
+
+We implement this proposal in both FPGA and software prototype,
+to respectively show it functional feasibility and performance advantage.
+With xxx and xxx  benchmark,
+we boost performance by xxx to xxx times.
+We also analysis and show the area, power and merchant impact to the DIMM and whole system.
 \end{abstract}
 
 \section{Introduction}
@@ -90,29 +90,67 @@ to suggest content such as music, products, and videos to users.
 
 Recent recommendation systems,
 such as MIMN\cite{recsys_mimn_alibaba} and SIM\cite{recsys_sim_alibaba},
-try to extract more useful insight from users long-term, 
+try to gain more in-depth insight into users long-term, 
 even life long, behavior sequences,
 whose length reach up to 54k in SIM\cite{recsys_sim_alibaba}.
 
 However,
 in spit of their significant accuracy improvement \cite{recsys_sim_alibaba},
-it is a very time consuming task accounting for more than 80\% of inference
+it is a very time consuming task to load these long sequences across the low bandwidth network connecting
+the servers storing huge 10TB embedding tables\cite{ recsys_baidu_aibox },
+which account for more than 80\% of inference
 \cite{recsys_archimp_facebook_hpca20 ,recsys_deeprecsys_facebook_isca20 } 
-and training \cite{recsys_traineff_facebook_hpca21 } time,
-to load these long sequences across the low bandwidth network connecting
-the servers storing huge 10TB embedding tables\cite{ recsys_baidu_aibox }.
+and training \cite{recsys_traineff_facebook_hpca21 } time.
 Such overhead prevent these long sequence analysis from being deployed in production environment\cite{recsys_sim_alibaba},.
 
 Recent proposals try to avoid this overhead by offloading the sum pooling operator into 
 memory\cite{recacc_tensordimm_kaist_micro19 ,recacc_recnmp_facebook_isca20 , recacc_tensorcasting_kaist_hpca21 }, 
 SSD \cite{recacc_recssd_kaist_asplos21 } and  network switch\cite{ recacc_fafnir_hpca21 }.
 
-But they can only handle simple sum pooling operator,
-not the more complex ones such as soft searching in SIM \cite{recsys_sim_alibaba}
-and attention in BST\cite{recsys_bst_alibaba}.
+However,
+they can not handle more complex pooling operators, 
+such as soft searching in SIM \cite{recsys_sim_alibaba}
+and attention in BST\cite{recsys_bst_alibaba},
+which contain matrix-vector multiplication operation posing 
+heavy computation burden on the relative 
 
 
 
+
+
+\section{Background}
+
+
+
+\section{Reformulation of Complex Pooling Operators}
+\subsection{Soft Searching}
+
+\subsection{Attention}
+
+
+\section{System Design}
+\subsection{System Architecture}
+\subsection{Communication Protocol}
+\subsection{Operator Mapping}
+
+
+
+\section{Evaluation}
+\subsection{Experimental Setup}
+\subsection{Performance}
+
+\subsection{Power}
+
+\subsection{Area}
+
+
+
+\section{Related Work}
+
+\section{Discussion}
+
+
+\section{Conclusion}
 
 \subsection{Format Highlights}
 
@@ -136,9 +174,6 @@ rigorous evaluation are equally welcome and especially encouraged. We
 also acknowledge the wide range of evaluation methodologies in ISCA including
 modeling, simulation, prototyping, experimental implementation, real
 product evaluation, etc.
-
-\section{Paper Preparation Instructions}
-
 \subsection{Paper Formatting}
 Papers must be submitted in printable PDF format and should contain a
 {\em maximum of 11 pages} of single-spaced two-column text, {\bf not
