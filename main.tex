@@ -56,15 +56,17 @@
   Thus,
   step 1 is the major performance bottleneck that accounts for over 80\% run time.
   
-  Recent studies have proposed near data processing (NDP) and 
-  processing-in-memory (PIM)  solutions for step 2, 
+  Recent studies have proposed near data processing (NDP) 
+  %and processing-in-memory (PIM)  
+  solutions for step 2, 
   to reduce the long sequences before sending them across the low bandwidth network to GPUs.
   But they can only handle simple sum pooling operators,
   not the more complex soft searching and attention operator.
   
   Thus,
-  this paper propose novel reformulations of soft searching and attention pooling operator with linear complexity,
-  and further propose new NDP/PIM architecture and communication protocol 
+  this paper propose novel reformulations of soft searching 
+  and attention pooling operator with linear complexity,
+  and further propose new NDP architecture and communication protocol 
   to evaluate them distributed on multiple DIMMs.
   
   We implement this proposal in both FPGA and software prototype,
