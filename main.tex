@@ -7,6 +7,7 @@
 \usepackage{xcolor}
 \usepackage{fancyhdr}
 \usepackage[hyphens]{url}
+\usepackage{tikz}
 
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
@@ -116,7 +117,11 @@ heavy computation burden on the relative
 
 
 
-
+\begin{figure}
+\begin{tikzpicture}
+\end{tikzpicture}
+\caption{Recommendation system with long user behavior sequences}
+\end{figure}
 
 \section{Background}
 
@@ -140,6 +145,8 @@ heavy computation burden on the relative
 \subsection{Performance}
 
 \subsection{Power}
+We use CACTI \cite{cacti6} to evalute the power of this chip,
+just like outerspace.
 
 \subsection{Area}
 
