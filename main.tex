@@ -47,7 +47,7 @@
 
 \begin{abstract}
 
-  Recommendation system analyse long-term user behavior by 
+  Recommendation system analyze long-term user behavior by 
   first 1) extracting long user behavior sequences from huge embedding tables
   distributed across servers connected by low bandwidth networks,
   and then 2) reducing this long sequence with some pooling operators,
@@ -88,32 +88,31 @@ Baidu\cite{recsys_mobius_baidu},
 Alibaba\cite{recsys_sim_alibaba}) 
 to suggest content such as music, products, and videos to users. 
 
-Recommendation systems stores users’ data and features in huge 10TB 
-embedding tables distributed across hundreds of servers\cite{recsys_baidu_aibox}
-connected by low bandwidth network.
-%These servers are connected by low bandwidth 100Gbps network,
-%10x slower than 600GBps NVswitch network.
-
-At the same time,
-recent recommendation systems,
+Recent recommendation systems,
 such as MIMN\cite{recsys_mimn_alibaba} and SIM\cite{recsys_sim_alibaba},
 try to extract more useful insight from users long-term, 
 even life long, behavior sequences,
 whose length reach up to 54k in SIM\cite{recsys_sim_alibaba}.
 
-Loading such long sequence through low bandwidth network
-map spend more than ~100ms 
-and account for more than 80\% of inference
+However,
+in spit of their significant accuracy improvement \cite{recsys_sim_alibaba},
+it is a very time consuming task accounting for more than 80\% of inference
 \cite{recsys_archimp_facebook_hpca20 ,recsys_deeprecsys_facebook_isca20 } 
-and training \cite{recsys_traineff_facebook_hpca21 } time.
-Such overhead prevent these long sequence analysis from being deployed in production environment,
-in spit of its significant accuracy improvement \cite{recsys_sim_alibaba}.
+and training \cite{recsys_traineff_facebook_hpca21 } time,
+to load these long sequences across the low bandwidth network connecting
+the servers storing huge 10TB embedding tables\cite{ recsys_baidu_aibox }.
+Such overhead prevent these long sequence analysis from being deployed in production environment\cite{recsys_sim_alibaba},.
 
 Recent proposals try to avoid this overhead by offloading the sum pooling operator into 
 memory\cite{recacc_tensordimm_kaist_micro19 ,recacc_recnmp_facebook_isca20 , recacc_tensorcasting_kaist_hpca21 }, 
 SSD \cite{recacc_recssd_kaist_asplos21 } and  network switch\cite{ recacc_fafnir_hpca21 }.
 
-But they can only handle simple sum pooling operator.
+But they can only handle simple sum pooling operator,
+not the more complex ones such as soft searching in SIM \cite{recsys_sim_alibaba}
+and attention in BST\cite{recsys_bst_alibaba}.
+
+
+
 
 \subsection{Format Highlights}
 
