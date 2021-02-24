@@ -88,6 +88,24 @@ Spotify\cite{recsys_spotify},
 Baidu\cite{recsys_mobius_baidu},
 Alibaba\cite{recsys_sim_alibaba}) 
 to suggest content such as music, products, and videos to users. 
+It directly drive revenues for these hyperscalers,
+and therefore consume the vast majority,
+over 80\% of AI inference \cite{ recsys_archimp_facebook_hpca20 } and more than 50\% of AI training \cite{ recsys_trainfb_facebook } ,
+cycles in facebook.
+Its annual growth rate are 3.3x for training \cite{recsys_trainfb_facebook} and 2X for inference \cite{recsys_inffb_facebook}
+
+\em{three steps, with huge emb distributed on many servers}
+
+
+\em{long seq face}
+
+\em{long time problem}
+
+\em{recent NDP solution}
+
+\em{NDP sum pooliong problem}
+
+\em{our solution, reformulating soft search, top k, attention}
 
 Recent recommendation systems,
 such as MIMN\cite{recsys_mimn_alibaba} and SIM\cite{recsys_sim_alibaba},
@@ -118,11 +136,13 @@ heavy computation burden on the relative
 
 
 
-\begin{figure}[htb]        
- \center{\includegraphics[width=\textwidth]  {recsysLong.png}}        
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.5\textwidth]  {recsysLong.png}
 \caption{Recommendation system with long user behavior sequences}
 \label{recsysLong}
- \end{figure}
+\end{figure}
+
 \section{Background}
 
 
