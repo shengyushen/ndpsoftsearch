@@ -109,6 +109,9 @@ This sequence is also called sparse feature as they are normally in one-hot form
 each of which stores a set of real number feature vectors representing, 
 for example,
 an user, a web page or a song's profile.
+For large E-commerce company like Alibaba,
+the number of users and items often reach billions\cite{recsys_billionscale_alibaba},
+which makes the embedding tables as large as 10TB and must be stored on multiple servers.
 The sequence from step 1 will be used to index these embedding tables to find out their respective feature vectors;
 \item A bottom MLP to map dense feature, 
 such as age and time,
