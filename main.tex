@@ -95,7 +95,7 @@ cycles in facebook.
 Its annual growth rate are 3.3x for training \cite{recsys_trainfb_facebook} and 2X for inference \cite{recsys_inffb_facebook}.
 
 As shown in Figure \ref{recsysLong}a),
-a typical recommendation system working flow contains the following components and steps:
+a typical recommendation system training/inference flow contains the following components and steps:
 \begin{enumerate}
 \item A training sequence containing recent transactions,
 for example,
@@ -138,8 +138,8 @@ which account for more than 80\% of inference
 and training \cite{recsys_traineff_facebook_hpca21 } time.
 Such overhead prevent these long sequence analysis from being deployed in production environment\cite{recsys_sim_alibaba},.
 
-Recent proposals try to avoid this overhead by offloading the sum pooling operator into 
-memory\cite{recacc_tensordimm_kaist_micro19 ,recacc_recnmp_facebook_isca20 , recacc_tensorcasting_kaist_hpca21 }, 
+Recent proposals try to avoid this overhead by offloading the sum pooling operator into near-data processing (NDP) devices,
+such as memory\cite{recacc_tensordimm_kaist_micro19 ,recacc_recnmp_facebook_isca20 , recacc_tensorcasting_kaist_hpca21 }, 
 SSD \cite{recacc_recssd_kaist_asplos21 } and  network switch\cite{ recacc_fafnir_hpca21 }.
 As shown in Figure \ref{recsysLong}b),
 this sum pooling only need to sum up all these feature vectors coming out of the embedding tables,
@@ -150,20 +150,39 @@ such proposals can not handle more complex pooling operators,
 such as soft searching in SIM \cite{recsys_sim_alibaba}
 and attention in BST\cite{recsys_bst_alibaba},
 which, as shown in Figure \ref{recsysLong}c),
- contain matrix-vector multiplication operation posing 
+contain matrix-vector multiplication operation posing 
 heavy computation burden on the memory controller, SSD controller and network switch with 
 very weak computation capability.
 
+In this paper we new ideas to resolve these problem
+such that complex soft searching and attention pooling operators can also be offloaded to NDP devices:
+\begin{enumerate}
+\item We propose  a new formulation of soft search and attention operators' forward and backward propagation algorithm,
+such that the majority of matrix computation can be extracted out of inner loop,
+and uploaded back to GPU.
+Therefore,
+only light weight vector-vector dot product need to be offloaded to NDP device,
+while still significantly reduce the feature vectors.
+\item We propose new communication protocols to collect necessary informance back to GPU to perform the matrix computation mentioned in step 1,
+and to distribute the resulting vector back to NDP device to enable offloading.
+\item We develop a noval NDP device architecture and implementation to implemente above computation.
+\item We evalute the perfomance and compare it to state-of-the-art GPU and CPU implementation, and shown xxX and xxX performance advantage respectively.
+\item We evalute its power and chip area efficiency.
+\end{enumerate}
 
 
 
 
 \section{Background}
+\subsection{Recommendation System}
 
+
+\subsection{}
 
 
 \section{Reformulation of Complex Pooling Operators}
 \subsection{Soft Searching}
+Forward and Backward propagation
 
 \subsection{Attention}
 
