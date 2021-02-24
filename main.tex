@@ -92,20 +92,36 @@ It directly drive revenues for these hyperscalers,
 and therefore consume the vast majority,
 over 80\% of AI inference \cite{ recsys_archimp_facebook_hpca20 } and more than 50\% of AI training \cite{ recsys_trainfb_facebook } ,
 cycles in facebook.
-Its annual growth rate are 3.3x for training \cite{recsys_trainfb_facebook} and 2X for inference \cite{recsys_inffb_facebook}
+Its annual growth rate are 3.3x for training \cite{recsys_trainfb_facebook} and 2X for inference \cite{recsys_inffb_facebook}.
 
-\em{three steps, with huge emb distributed on many servers}
+As shown in Figure \ref{recsysLong}a),
+a typical recommendation system working flow contains the following components and steps:
+\begin{enumerate}
+\item A training sequence containing recent transactions,
+for example,
+web pages browsed by users,
+items purchased by customers.
+For each transaction,
+the recommendation system not only extract the user id and item id accessed by this particular user, 
+it also find out the sequence of items recently accessed by this user to capture the changing trend of this user profile.
+This sequence is also called sparse feature as they are normally in one-hot format;
+\item An embedding layer contains 10s to 100s of embedding tables,
+each of which stores a set of real number feature vectors representing, 
+for example,
+an user, a web page or a song's profile.
+The sequence from step 1 will be used to index these embedding tables to find out their respective feature vectors;
+\item A bottom MLP to map dense feature, 
+such as age and time,
+into feature vectors;
+\item A top MLP to exploit the relation between all the feature vectors from above steps;
+\end{enumerate}
 
-
-\em{long seq face}
-
-\em{long time problem}
-
-\em{recent NDP solution}
-
-\em{NDP sum pooliong problem}
-
-\em{our solution, reformulating soft search, top k, attention}
+\begin{figure}[tb]
+\centering
+\includegraphics[width=0.5\textwidth]  {recsysLong.png}
+\caption{Recommendation system with long user behavior sequences}
+\label{recsysLong}
+\end{figure}
 
 Recent recommendation systems,
 such as MIMN\cite{recsys_mimn_alibaba} and SIM\cite{recsys_sim_alibaba},
@@ -125,23 +141,22 @@ Such overhead prevent these long sequence analysis from being deployed in produc
 Recent proposals try to avoid this overhead by offloading the sum pooling operator into 
 memory\cite{recacc_tensordimm_kaist_micro19 ,recacc_recnmp_facebook_isca20 , recacc_tensorcasting_kaist_hpca21 }, 
 SSD \cite{recacc_recssd_kaist_asplos21 } and  network switch\cite{ recacc_fafnir_hpca21 }.
+As shown in Figure \ref{recsysLong}b),
+this sum pooling only need to sum up all these feature vectors coming out of the embedding tables,
+which significantly reduce the size of feature vectors with little computation requirement.
 
 However,
-they can not handle more complex pooling operators, 
+such proposals can not handle more complex pooling operators, 
 such as soft searching in SIM \cite{recsys_sim_alibaba}
 and attention in BST\cite{recsys_bst_alibaba},
-which contain matrix-vector multiplication operation posing 
-heavy computation burden on the relative 
+which, as shown in Figure \ref{recsysLong}c),
+ contain matrix-vector multiplication operation posing 
+heavy computation burden on the memory controller, SSD controller and network switch with 
+very weak computation capability.
 
 
 
 
-\begin{figure}[tb]
-\centering
-\includegraphics[width=0.5\textwidth]  {recsysLong.png}
-\caption{Recommendation system with long user behavior sequences}
-\label{recsysLong}
-\end{figure}
 
 \section{Background}
 
